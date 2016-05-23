@@ -1,5 +1,8 @@
 require 'sinatra'
 require 'stripe'
+require 'pry'
+require 'dotenv'
+Dotenv.load
 
 set :stripe_publishable_key, ENV['STRIPE_PUBLISHABLE_KEY']
 set :stripe_secret_key, ENV['STRIPE_SECRET_KEY']
@@ -13,19 +16,21 @@ end
 post '/charge' do
   @amount = 40000
   
-  # find or create customer?
   customer = Stripe::Customer.create(
-    email: params[:email],
-    source: params[:stripeToken]
+    source: params[:stripeToken],
+    email: params[:stripeEmail],
+    description: params[:stripeBillingName]
+    
   )
   
-  # sign up for a product here..
   charge = Stripe::Charge.create(
     amount: @amount,
     description: 'ZenFit Kids Camp Session 1',
     currency: 'usd',
     customer: customer.id
   )
+  
+  haml :thank_you
 end
 
 __END__
