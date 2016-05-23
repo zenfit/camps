@@ -4,6 +4,14 @@ body {
   align-items: center;
 }
 
+form {
+  text-align: center;
+}
+
 .nav {
   display: flex;
+}
+
+.total {
+  margin-bottom: 20px;
 }

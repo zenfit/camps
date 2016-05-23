@@ -4,6 +4,6 @@ gem 'sinatra'
 gem 'shotgun'
 gem 'haml'
 gem 'sass'
-gem 'braintree'
+gem 'stripe'
 
 ruby '2.3.1'

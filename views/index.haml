@@ -1,40 +1,38 @@
-!!!
-%html
-  %head
-    %title ZenFit Kids Camps
-    %link{rel: 'stylesheet', type: 'text/css', href: '/stylesheets/main.css'}
-    %link{:crossorigin => "anonymous", :href => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css", :integrity => "sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7", :rel => "stylesheet"}
-    %script{:crossorigin => "anonymous", :integrity => "sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=", :src => "https://code.jquery.com/jquery-2.2.3.min.js"}
-    %script{:crossorigin => "anonymous", :integrity => "sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS", :src => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"}
-  %body
-    .nav
-      %img{src: '/images/logo.jpg', style: 'width: 180px; height: auto;'}
-      %h1
-        Kids Camp
-    .container{style: 'max-width: 600px;'}
-      %h3
-        Sign-up today for the June 13th - 17th session!
-      %br
-      .form-group
-        %label{:for => "parent-name"} Parent's Name
-        %input#parent-name.form-control{placeholder: "Parent's Name", type: "text"}
-      .form-group
-        %label{:for => "email"} Email Address
-        %input#email.form-control{:placeholder => "Email", :type => "email"}
-
-      %form#checkout{:action => "/checkout", :method => "post"}
-        #payment-form
-        %input{type: "submit", value: "Register for Camp $400", class: 'btn-lg'}
-
-      %script{:src => "https://js.braintreegateway.com/js/braintree-2.24.0.min.js"}
-      :javascript
-        var clientToken = "#{bt_token}";
-
-        braintree.setup(clientToken, "dropin", {
-          container: "payment-form",
-          paypal: {
-            button: {
-              type: 'checkout'
-            }
-          }
-        });
+.container{style: 'max-width: 600px;'}
+  .nav
+    %img{src: '/images/logo.jpg', style: 'width: 180px; height: auto;'}
+    %h1
+      Kids Camp
+  .well
+    %h3
+      Sign-up today for the June 13th - 17th session!
+    %hr
+    %p 
+      Zen Fit’s Parent approved and praised summer camps are back for another year of fun and exercise! Tuition for 
+      students currently enrolled in our Zen Youth program is <strong>$500 for the mini-week</strong> or <strong>$400 early bird</strong> (sign-up before June 1st)
+      for camp.  We will offer payment plans for current students and families for their dedication and support of our dojo.
+    %p 
+      Pre paid Tuition payments must be made before the 1st of June. Full payments are expected regardless of actual attendance 
+      and/or holidays.  The cost structure of our program is based on this assumption. Please consider that you are receiving 
+      Camp care as well as daily martial arts instruction. Tuition payments will not be pro-rated over incomplete week.  This 
+      includes holidays and school closures.
+    %p <strong>Costs include:</strong>
+    %ul
+      %li Meals, full lunch and afternoon snack
+      %li ZenFit camp t-shirt
+      %li Instructor fees
+      %li AC/Heat
+      %li Water
+      %li Insurance
+    %p.total <strong>Total (Before June 1st):</strong> $400.00
+    .stripe-form.center-block
+      %form.payment{:action => "/charge", :method => "post"}
+        %script.stripe-button{"data-amount" => "40000", 
+        "data-image" => "/images/zen-flame.png",
+        "data-name" => "ZenFit Summer Camp",
+        "data-description" => "Early-bird sign up for June session.", 
+        "data-key" => "#{settings.stripe_publishable_key}", 
+        "data-locale" => "auto", 
+        "data-billing-address" => true,
+        :src => "https://checkout.stripe.com/checkout.js"}
+        
