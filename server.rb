@@ -25,7 +25,7 @@ post '/charge' do
   
   charge = Stripe::Charge.create(
     amount: @amount,
-    description: 'ZenFit Kids Camp Session 1',
+    description: 'ZenFit Kids Camp Session 2',
     currency: 'usd',
     customer: customer.id
   )
